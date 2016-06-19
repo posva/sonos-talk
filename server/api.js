@@ -1,8 +1,6 @@
 const Gtts = require('gtts')
 const fs = require('fs')
-const path = require('path')
 const myip = require('quick-local-ip')
-const _ = require('lodash')
 const sonos = require('./sonos')
 const utils = require('./utils')
 
@@ -26,7 +24,7 @@ module.exports = {
       const gtts = new Gtts(text, req.params.lang)
 
       gtts.save(filePath, function (err, result) {
-        if (err) return res.status(500).send({ error: 'Could not save the file'})
+        if (err) return res.status(500).send({ error: 'Could not save the file' })
         res.sendFile(filePath, sendFileOptions, (err) => {
           if (err) {
             console.error(`Cannot send ${fileName}`)
