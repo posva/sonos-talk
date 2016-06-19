@@ -1,0 +1,18 @@
+{
+  "name": "sonos-talk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.14.0",
+    "gtts": "^0.1.1",
+    "lodash": "^4.13.1",
+    "quick-local-ip": "^1.0.7",
+    "sonos": "^0.12.0"
+  }
+}
