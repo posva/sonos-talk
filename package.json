@@ -9,8 +9,9 @@
   },
   "scripts": {
     "dev": "nodemon -w server server/index.js",
-    "test": "mocha",
-    "start": "node server/index.js"
+    "test": "npm run lint && mocha",
+    "start": "node server/index.js",
+    "lint": "standard 'server/**/*.js' 'test/**/*.js'"
   },
   "author": "Eduardo San Martin Morote <posva13@gmail.com>",
   "license": "MIT",
@@ -23,6 +24,11 @@
   },
   "devDependencies": {
     "mocha": "^2.5.3",
-    "nodemon": "^1.9.2"
+    "nodemon": "^1.9.2",
+    "should": "^9.0.2",
+    "standard": "^7.1.2"
+  },
+  "standard": {
+    "globals": ["should", "describe", "it", "before", "after"]
   }
 }
