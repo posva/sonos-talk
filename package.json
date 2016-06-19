@@ -16,10 +16,12 @@
   "author": "Eduardo San Martin Morote <posva13@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.15.1",
     "express": "^4.14.0",
     "gtts": "^0.1.1",
     "lodash": "^4.13.1",
     "quick-local-ip": "^1.0.7",
+    "sha1": "^1.1.1",
     "sonos": "^0.12.0"
   },
   "devDependencies": {

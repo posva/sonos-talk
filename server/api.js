@@ -4,49 +4,61 @@ const path = require('path')
 const myip = require('quick-local-ip')
 const _ = require('lodash')
 const sonos = require('./sonos')
+const utils = require('./utils')
+
+const sendFileOptions = {
+  dotfiles: 'deny',
+  headers: {
+    'x-timestamp': Date.now(),
+    'x-sent': true
+  }
+}
 
 module.exports = {
   generateSpeech (req, res) {
-    const options = {
-      dotfiles: 'deny',
-      headers: {
-        'x-timestamp': Date.now(),
-        'x-sent': true
-      }
-    }
-    const file = path.resolve(__dirname, '../cache', req.params.file)
-    if (!fs.existsSync(file)) {
-      const gtts = new Gtts(req.params.file, 'fr')
+    const text = utils.decodeText(req.params.file)
+    const fileName = utils.getFileNameForText(req.params.lang, text)
+    const filePath = utils.getFilePath(fileName)
 
-      gtts.save(file, function (err, result) {
-        if (err) return res.status(500).send(err)
-        res.sendFile(file, options, (err) => {
+    console.log(`Requested ${text}`)
+
+    if (!fs.existsSync(filePath)) {
+      const gtts = new Gtts(text, req.params.lang)
+
+      gtts.save(filePath, function (err, result) {
+        if (err) return res.status(500).send({ error: 'Could not save the file'})
+        res.sendFile(filePath, sendFileOptions, (err) => {
           if (err) {
-            console.error(`Cannot send ${file}`)
+            console.error(`Cannot send ${fileName}`)
             res.status(err.status).end()
           } else {
-            console.log(`Sent: ${file}`)
+            console.log(`Sent: ${fileName}`)
           }
         })
       })
     } else {
-      res.sendFile(file, options, (err) => {
+      res.sendFile(filePath, sendFileOptions, (err) => {
         if (err) {
-          console.error(`Cannot send ${file}`)
+          console.error(`Cannot send ${fileName}`)
           res.status(err.status).end()
         } else {
-          console.log(`Sent: ${file}`)
+          console.log(`Sent: ${fileName}`)
         }
       })
     }
   },
 
   speakText (req, res) {
-    const text = _.kebabCase(req.params.text)
-    const url = `http://${myip.getLocalIP4()}:${process.env.PORT}/api/generate/${text}.mp3`
-    sonos.device.play(url, function (err, playing) {
-      if (err) return res.status(500).send(err)
+    const encodedText = utils.encodeText(decodeURI(req.params.text))
+    const uri = `/api/generate/${req.params.lang}/${encodedText}.mp3`
+    const url = `http://${myip.getLocalIP4()}:${process.env.PORT}${uri}`
+    console.log(`Sending ${url} to Sonos`)
+    sonos.device && sonos.device.play(url, function (err, playing) {
+      if (err) return res.status(500).send({ error: 'Sonos error', err })
       res.send(playing)
+    }) || res.status(404).send({
+      error: 'Sonos not found',
+      request: url
     })
   }
 }
