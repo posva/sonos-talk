@@ -24,7 +24,7 @@ module.exports = {
       const gtts = new Gtts(text, req.params.lang)
 
       gtts.save(filePath, function (err, result) {
-        if (err) return res.status(500).send({ error: 'Could not save the file' })
+        if (err) return res.status(500).json({ error: 'Could not save the file' })
         res.sendFile(filePath, sendFileOptions, (err) => {
           if (err) {
             console.error(`Cannot send ${fileName}`)
@@ -52,9 +52,9 @@ module.exports = {
     const url = `http://${myip.getLocalIP4()}:${process.env.PORT}${uri}`
     console.log(`Sending ${url} to Sonos`)
     sonos.device && sonos.device.play(url, function (err, playing) {
-      if (err) return res.status(500).send({ error: 'Sonos error', err })
-      res.send(playing)
-    }) || res.status(404).send({
+      if (err) return res.status(500).json({ error: 'Sonos error', err })
+      res.json({ ok: playing })
+    }) || res.status(404).json({
       error: 'Sonos not found',
       request: url
     })
