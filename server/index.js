@@ -12,7 +12,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.get('/api/generate/:lang/:file', api.generateSpeech)
 app.get('/api/speak/:lang/:text', api.speakText)
 // TODO create front app
-app.use('/', express.static('./dist'))
+if (process.env.NODE_ENV !== 'production' &&
+    process.env.NODE_ENV !== 'debug' &&
+    process.env.NODE_ENV !== 'testing') {
+  const webpackMiddleware = require('../build/dev-server')
+  webpackMiddleware(app, express.static('./static'))
+} else {
+  app.use('/', express.static('./dist'))
+}
 
 module.exports = app.listen(process.env.PORT, () => {
   console.info(`Listening on ${process.env.PORT}`)
