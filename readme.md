@@ -1,21 +1,27 @@
-Sonos Talk
-===
+# sonos-talk
 
-Make your Sonos talk.
+> A Vue.js project
 
+## Build Setup
 
-Simple api to make your Sonos play the text you send to it. It uses GTT (Google Text to Speech service) service to generate mp3 speeches files and send them to your Sonos device.
-This server is meant to be run in the same network as your Sonos. It'll find it and connect to it at startup. It runs nicely on a Raspberry Pi.
+``` bash
+# install dependencies
+npm install
 
-## Running
-
-You can start the server with `npm start`
-You can then test it on your browser on the following address
-[http://localhost:8080/api/speak/en/Hello%20there](http://localhost:8080/api/speak/en/Hello%20there)
-If you don't have a Sonos connected you can still listen to the generated mp3. The response will include a link for it.
-
-## Dev
-
-```
+# serve with hot reload at localhost:8080
 npm run dev
+
+# build for production with minification
+npm run build
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
 ```
+
+For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

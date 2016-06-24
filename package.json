@@ -1,22 +1,22 @@
 {
   "name": "sonos-talk",
   "version": "0.0.1",
-  "description": "Make your Sonos talk",
+  "description": "Make your sonos talk",
+  "author": "Eduardo San Martin Morote <posva13@gmail.com>",
   "main": "server/index.js",
   "private": true,
   "engines": {
     "node": "6.x"
   },
   "scripts": {
-    "dev": "nodemon -w server server/index.js",
-    "test": "npm run lint && mocha",
     "start": "node server/index.js",
-    "lint": "standard 'server/**/*.js' 'test/**/*.js'"
+    "dev": "nodemon -w server server/index.js",
+    "build": "node build/build.js",
+    "test": "",
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
-  "author": "Eduardo San Martin Morote <posva13@gmail.com>",
-  "license": "MIT",
   "dependencies": {
-    "body-parser": "^1.15.1",
+    "body-parser": "^1.15.2",
     "cors": "^2.7.1",
     "express": "^4.14.0",
     "gtts": "^0.1.1",
@@ -26,19 +26,44 @@
     "sonos": "^0.12.0"
   },
   "devDependencies": {
+    "babel-core": "^6.0.0",
+    "babel-loader": "^6.0.0",
+    "babel-plugin-transform-runtime": "^6.0.0",
+    "babel-preset-es2015": "^6.0.0",
+    "babel-preset-stage-2": "^6.0.0",
+    "babel-runtime": "^6.0.0",
+    "connect-history-api-fallback": "^1.1.0",
+    "css-loader": "^0.23.0",
+    "eslint": "^2.10.2",
+    "eslint-config-standard": "^5.1.0",
+    "eslint-friendly-formatter": "^2.0.5",
+    "eslint-loader": "^1.3.0",
+    "eslint-plugin-html": "^1.3.0",
+    "eslint-plugin-promise": "^1.0.8",
+    "eslint-plugin-standard": "^1.3.2",
+    "eventsource-polyfill": "^0.9.6",
+    "express": "^4.13.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.4",
+    "function-bind": "^1.0.2",
+    "html-webpack-plugin": "^2.8.1",
+    "http-proxy-middleware": "^0.12.0",
+    "json-loader": "^0.5.4",
     "mocha": "^2.5.3",
     "nodemon": "^1.9.2",
+    "ora": "^0.2.0",
     "proxyquire": "^1.7.9",
+    "shelljs": "^0.6.0",
     "should": "^9.0.2",
-    "standard": "^7.1.2"
-  },
-  "standard": {
-    "globals": [
-      "should",
-      "describe",
-      "it",
-      "before",
-      "after"
-    ]
+    "url-loader": "^0.5.7",
+    "vue": "^1.0.21",
+    "vue-hot-reload-api": "^1.2.0",
+    "vue-html-loader": "^1.0.0",
+    "vue-loader": "^8.3.0",
+    "vue-style-loader": "^1.0.0",
+    "webpack": "^1.12.2",
+    "webpack-dev-middleware": "^1.4.0",
+    "webpack-hot-middleware": "^2.6.0",
+    "webpack-merge": "^0.8.3"
   }
 }
