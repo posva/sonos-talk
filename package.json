@@ -12,7 +12,7 @@
     "start": "node server/index.js",
     "dev": "nodemon -w server server/index.js",
     "build": "node build/build.js",
-    "test": "",
+    "test": "mocha",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
