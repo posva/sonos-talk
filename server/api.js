@@ -1,4 +1,4 @@
-const Gtts = require('gtts')
+const Gtts = require('./gtts/gTTs')
 const fs = require('fs')
 const myip = require('quick-local-ip')
 const sonos = require('./sonos')
@@ -15,35 +15,11 @@ const sendFileOptions = {
 module.exports = {
   generateSpeech (req, res) {
     const text = utils.decodeText(req.params.file)
-    const fileName = utils.getFileNameForText(req.params.lang, text)
-    const filePath = utils.getFilePath(fileName)
 
     console.log(`Requested ${text}`)
-
-    if (!fs.existsSync(filePath)) {
-      const gtts = new Gtts(text, req.params.lang)
-
-      gtts.save(filePath, function (err, result) {
-        if (err) return res.status(500).json({ error: 'Could not save the file' })
-        res.sendFile(filePath, sendFileOptions, (err) => {
-          if (err) {
-            console.error(`Cannot send ${fileName}`)
-            res.status(err.status).end()
-          } else {
-            console.log(`Sent: ${fileName}`)
-          }
-        })
-      })
-    } else {
-      res.sendFile(filePath, sendFileOptions, (err) => {
-        if (err) {
-          console.error(`Cannot send ${fileName}`)
-          res.status(err.status).end()
-        } else {
-          console.log(`Sent: ${fileName}`)
-        }
-      })
-    }
+    const gtts = new Gtts(text, req.params.lang)
+    res.set('Content-Type', 'audio/mpeg')
+    gtts.stream().pipe(res)
   },
 
   speakText (req, res) {
