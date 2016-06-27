@@ -21,7 +21,7 @@ module.exports = {
     if (sonos.device) {
       sonos.device.play(url, function (err, playing) {
         if (err) return res.status(500).json({ error: 'Sonos error', err })
-        res.json({ ok: playing })
+        res.json({ ok: playing, request: url })
       })
     } else {
       res.status(404).json({
