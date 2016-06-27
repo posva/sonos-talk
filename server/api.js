@@ -1,4 +1,4 @@
-const Gtts = require('./gtts/gTTs')
+const Gtts = require('./gtts/gTTS')
 const fs = require('fs')
 const myip = require('quick-local-ip')
 const sonos = require('./sonos')
