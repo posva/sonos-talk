@@ -10,7 +10,26 @@ module.exports = {
     console.log(`Requested "${text}"`)
     const gtts = new Gtts(text, req.params.lang)
     res.set('Content-Type', 'audio/mpeg')
-    gtts.stream().pipe(res)
+    res.set('Content-Length', 3072)
+    res.set('Accept-Ranges', 'bytes')
+    res.set('Cache-Control', 'no-cache')
+    res.set('Last-Modified', new Date())
+    res.set('x-timestamp', +new Date())
+    res.removeHeader('Accept')
+    res.removeHeader('Accept-Encoding')
+    res.removeHeader('Accept-Language')
+    const stream = gtts.stream()
+    stream.on('pipe', () => {
+      console.log('piping')
+    }).on('error', (err) => {
+      console.log(err)
+    }).on('finish', () => {
+      console.log('Done writing', text)
+    }).on('close', () => {
+      res.end()
+      console.log('Closed', text)
+    })
+    stream.pipe(res)
   },
 
   speakText (req, res) {
