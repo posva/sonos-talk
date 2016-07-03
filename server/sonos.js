@@ -15,7 +15,6 @@ var sonosInterface = {
   device: null
 }
 
-
 promise.catch((err) => {
   console.error(err)
 })
