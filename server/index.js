@@ -11,6 +11,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/api/generate/:lang/:file', api.generateSpeech)
 app.get('/api/speak/:lang/:text', api.speakText)
+app.get('/api/devices', api.getDevices)
+app.get('/api/device/:host?', api.selectDevice)
+app.get('/api/play/:file', api.playFile)
+app.get('/api/serve/:file', api.serveFile)
+
 // TODO create front app
 if (process.env.NODE_ENV !== 'production' &&
     process.env.NODE_ENV !== 'debug' &&

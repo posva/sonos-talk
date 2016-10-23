@@ -1,22 +1,26 @@
 const sonos = require('sonos')
 
 var sonosSearch = sonos.search()
-const promise = new Promise((resolve) => {
-  sonosSearch.on('DeviceAvailable', (device) => {
-    sonosSearch.destroy()
-    console.log(`Device found ${device}`)
-    sonosInterface.device = device
-    resolve(device)
-  })
+sonosSearch.on('DeviceAvailable', (device) => {
+  sonosInterface.devices.set(device.host, device)
+  console.log(`Device found ${device.host}`)
+  if (!sonosInterface.device) {
+    sonosInterface.selectDevice(device.host)
+  }
 })
 
 var sonosInterface = {
-  promise: promise,
-  device: null
-}
+  device: null,
+  devices: new Map(),
 
-promise.catch((err) => {
-  console.error(err)
-})
+  selectDevice (host) {
+    this.device = this.devices.get(host) || this.device
+    console.log(`Set device to ${this.device.host}`)
+  },
+
+  getDevices () {
+    return [...this.devices.values()]
+  }
+}
 
 module.exports = sonosInterface
